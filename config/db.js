@@ -5,8 +5,9 @@ const db = config.get( 'mongoURI' )
 const connectDB = async ()=>{
 
     try {
-       await mongoose.connect(db) ;
+       await mongoose.connect(db,) ;
        console.log("MONGODB CONNECTED")  
+       newpunycode:true
     } catch (error) {
         console.log(error.message)
         process.exit(1)
