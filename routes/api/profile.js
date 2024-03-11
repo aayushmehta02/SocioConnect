@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router();
-const punycode = require('punycode')
+const dotenv = require('dotenv')
+const axios = require('axios')
 const request = require('request')
 const config = require('config')
 const auth = require('../middleware/auth')
@@ -8,6 +9,15 @@ const Profile = require('../../models/Profile')
 const User = require('../../models/User')
 const {check, validationResult} = require('express-validator');
 const { profile } = require('console');
+const punycode = require('punycode/');
+// import punycode from "punycode/";
+// // decode domain name parts
+// punycode.decode('maana-pta'); // 'mañana'
+// punycode.decode('--dqo34k'); // '☃-⌘'
+// // encode domain name parts
+// punycode.encode('mañana'); // 'maana-pta'
+// punycode.encode('☃-⌘'); // '--dqo34k'
+
 // GET api/profile/me
 //get current user profile
 router.get('/me',auth, async(req,res)=>{
@@ -313,7 +323,7 @@ router.get( '/github/:username', (req,res)=> {
 
 
         }
-
+        console.log(`${config.get('githubClientId')}`)
         request(options,(error, response, body)=>{
             if(error){
                 console.log('Error:', error)
