@@ -32,6 +32,9 @@ export const Register = () => {
                 email,
                 password
                }
+               if (!name || !email || !password) {
+                throw new Error("Name, email, and password are required");
+            }
              console.log(newUser);
                 const config = {
 
@@ -42,11 +45,22 @@ export const Register = () => {
                 }
                 const body = JSON.stringify(newUser)
                 console.log(body)
-                const res = await axios.post('/api/users', body, config)
+                const res = await axios.post('http://localhost:5000/api/users', body, config)
                 console.log(res);
 
            } catch (error) {
-            console.log(error)
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an error
+                console.log('Error', error.message);
+            }
            }
         }
     }
