@@ -5,11 +5,14 @@ import { Login } from './components/auth/Login';
 import { Register } from './components/auth/Register';
 import { Landing } from './components/layout/Landing';
 import { Navbar } from './components/layout/Navbar';
-
+//redux
+import { Provider } from 'react-redux';
+import store from './store';
 function App() {
   const [count, setCount] = useState(0)
 
   return (
+    <Provider store={store}>
     <Router>
        <>
       
@@ -25,6 +28,7 @@ function App() {
         
     </>
     </Router>
+    </Provider>
    
   )
 }
