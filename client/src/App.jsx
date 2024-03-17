@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import './App.css';
 import { Login } from './components/auth/Login';
@@ -9,24 +8,27 @@ import { Navbar } from './components/layout/Navbar';
 import { Provider } from 'react-redux';
 import store from './store';
 function App() {
-  const [count, setCount] = useState(0)
-
+  
+  
   return (
     <Provider store={store}>
     <Router>
-       <>
+      
       
         <Navbar/>
+        
+      
+        
         <Routes>
         
         <Route exact path='/' Component={Landing} />
-        <Route exact path='/register' Component={Register}/>
+        <Route exact path='/register' Component={Register} />
         <Route exact path='/login' Component={Login}/>
         </Routes>
         
       
         
-    </>
+    
     </Router>
     </Provider>
    

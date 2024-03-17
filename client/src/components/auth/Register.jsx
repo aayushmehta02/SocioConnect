@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
 import { SET_ALERT } from '../../actions/types'; // Import SET_ALERT action type
-
+import Alert from '../layout/Alert';
 export const Register = () => {
     const dispatch = useDispatch(); // Get the dispatch function
 
@@ -51,6 +51,7 @@ export const Register = () => {
 
     return (
         <div>
+            <Alert/>
             <section className="container">
                 <h1 className="large text-primary">Sign Up</h1>
                 <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
