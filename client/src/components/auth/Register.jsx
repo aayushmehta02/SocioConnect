@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
-import { SET_ALERT } from '../../actions/types'; // Import SET_ALERT action type
+import { REMOVE_ALERT, SET_ALERT } from '../../actions/types'; // Import SET_ALERT action type
 import Alert from '../layout/Alert';
 export const Register = () => {
     const dispatch = useDispatch(); // Get the dispatch function
@@ -47,6 +47,8 @@ export const Register = () => {
             type: SET_ALERT,
             payload: { msg, alertType, id }
         });
+
+        setTimeout(()=> dispatch({ type: REMOVE_ALERT, payload: id}), 4000)
     }
 
     return (
@@ -75,5 +77,6 @@ export const Register = () => {
         </div>
     );
 };
+
 
 export default Register;
