@@ -23,6 +23,7 @@
     "node": "^21.7.1",
     "punycode": "^2.3.1",
     "request": "^2.88.2",
+    "requset": "^0.0.1-security",
     "validator": "^13.11.0"
   },
   "devDependencies": {

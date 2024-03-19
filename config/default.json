@@ -2,5 +2,5 @@
     "mongoURI": "mongodb+srv://aayushmehta022:ircLZhQJdWJ8tKAo@cluster0.ymaseh6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
     "jwtSecret": "mysecrettoken",
     "githubClientId" : "7045eefd6c49b41154ae",
-    "githubSecret": "176a7076da6dcd8ffa54a8bac50d64d37e904303"
+    "githubSecret": "77d5f9bb1b047bad8b6f040ce4748154faa34f73"
 }

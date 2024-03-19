@@ -50,6 +50,7 @@ export const Register = () => {
 
         setTimeout(()=> dispatch({ type: REMOVE_ALERT, payload: id}), 4000)
     }
+ 
 
     return (
         <div>
