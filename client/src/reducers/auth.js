@@ -1,4 +1,4 @@
-import { REGISTER_SUCCESS, REGISTRATION_FAIL } from "../actions/types";
+import { REGISTER_FAIL, REGISTER_SUCCESS } from "../actions/types";
 
 
 const initialState ={
@@ -22,7 +22,7 @@ export default function(state=initialState, action) {
                     loading: false
                 };
             
-            case REGISTRATION_FAIL:
+            case REGISTER_FAIL:
                 // remove the token from local storage if registration fails
                 localStorage.removeItem('token');
                 return {

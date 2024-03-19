@@ -2,8 +2,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
-import { REMOVE_ALERT, SET_ALERT } from '../../actions/types'; // Import SET_ALERT action type
+import { REGISTER_FAIL, REGISTER_SUCCESS, REMOVE_ALERT, SET_ALERT } from '../../actions/types'; // Import SET_ALERT action type
 import Alert from '../layout/Alert';
+
 export const Register = () => {
     const dispatch = useDispatch(); // Get the dispatch function
 
@@ -24,19 +25,23 @@ export const Register = () => {
         e.preventDefault();
         if (password !== password2) {
             dispatchAlert('Passwords do not match', 'danger'); // Call dispatchAlert instead of newAlert
+
+
         } else {
-            try {
-                const newUser = { name, email, password };
-                if (!name || !email || !password) {
-                    throw new Error("Name, email, and password are required");
-                }
-                const config = { headers: { 'Content-Type': 'application/json' }};
-                const body = JSON.stringify(newUser);
-                const res = await axios.post('http://localhost:5000/api/users', body, config);
-                console.log(res);
-            } catch (error) {
-                console.error('Error:', error.message);
-            }
+
+            register({ name, email, password });  //
+            // try {
+            //     const newUser = { name, email, password };
+            //     if (!name || !email || !password) {
+            //         throw new Error("Name, email, and password are required");
+            //     }
+            //     const config = { headers: { 'Content-Type': 'application/json' }};
+            //     const body = JSON.stringify(newUser);
+            //     const res = await axios.post('http://localhost:5000/api/users', body, config);
+            //     console.log(res);
+            // } catch (error) {
+            //     console.error('Error:', error.message);
+            // }
         }
     }
 
@@ -50,7 +55,35 @@ export const Register = () => {
 
         setTimeout(()=> dispatch({ type: REMOVE_ALERT, payload: id}), 4000)
     }
- 
+    //user register
+
+    async function register({ name, email, password }) {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+    
+        const body = JSON.stringify({ name, email, password });
+        console.log(body)
+    
+        try {
+            const res = await axios.post('http://localhost:5000/api/users', body, config);
+            console.log(res.data)
+            dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+        } catch (err) {
+            console.log(err)
+    
+            if (err) {
+                dispatch({ type: REGISTER_FAIL });
+                // err.forEach(error => dispatch(dispatchAlert(error.msg, 'danger')));
+                
+            }
+    
+            dispatch({ type: REGISTER_FAIL, payload: err.response.body.msg });
+        }
+    }
+    
 
     return (
         <div>
@@ -80,4 +113,4 @@ export const Register = () => {
 };
 
 
-export default Register;
+export default  Register
