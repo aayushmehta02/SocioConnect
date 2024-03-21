@@ -2,11 +2,12 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
+import { setAuthToken } from '../../actions/auth';
 import { REGISTER_FAIL, REGISTER_SUCCESS, REMOVE_ALERT, SET_ALERT } from '../../actions/types'; // Import SET_ALERT action type
 import Alert from '../layout/Alert';
-
 export const Register = () => {
     const dispatch = useDispatch(); // Get the dispatch function
+    const newDispatch = useDispatch()
 
     const [formData, setFormData] = useState({
         name: '',
@@ -24,12 +25,16 @@ export const Register = () => {
     async function onSubmit(e) {
         e.preventDefault();
         if (password !== password2) {
-            dispatchAlert('Passwords do not match', 'danger'); // Call dispatchAlert instead of newAlert
+            dispatchAlert('Enter a new password', 'danger'); // Call dispatchAlert instead of newAlert
 
 
         } else {
 
-            register({ name, email, password });  //
+            register({ name, email, password }, "Registration is successful");  //
+            if(localStorage.token){
+                setAuthToken(localStorage.token);
+                console.log(localStorage.token)
+              }
             // try {
             //     const newUser = { name, email, password };
             //     if (!name || !email || !password) {
@@ -57,7 +62,8 @@ export const Register = () => {
     }
     //user register
 
-    async function register({ name, email, password }) {
+    async function register({ name, email, password }, msg, isAuthenticated, loading) {
+
         const config = {
             headers: {
                 'Content-Type': 'application/json'
@@ -70,19 +76,26 @@ export const Register = () => {
         try {
             const res = await axios.post('http://localhost:5000/api/users', body, config);
             console.log(res.data)
-            dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+          
+            console.log(res)
+            newDispatch({ type: REGISTER_SUCCESS,  payload: res.data});
+            
         } catch (err) {
             console.log(err)
     
             if (err) {
-                dispatch({ type: REGISTER_FAIL });
+                newDispatch({ type: REGISTER_FAIL });
                 // err.forEach(error => dispatch(dispatchAlert(error.msg, 'danger')));
                 
             }
     
-            dispatch({ type: REGISTER_FAIL, payload: err.response.body.msg });
+            newDispatch({ type: REGISTER_FAIL, payload: err.response.body.msg });
         }
+
+
+
     }
+    
     
 
     return (
