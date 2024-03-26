@@ -7,16 +7,17 @@ import { Navbar } from './components/layout/Navbar';
 //redux
 import { useEffect } from "react";
 import { Provider } from 'react-redux';
-import { loadUser } from './actions/auth';
+import { loadUser, setAuthToken } from './actions/auth';
+import Dashboard from "./components/dashboard/Dashboard";
 import store from './store';
 
 
 
 
-// if(localStorage.token){
-//   setAuthToken(localStorage.token);
-//   console.log(localStorage.token)
-// }
+if(localStorage.token){
+  setAuthToken(localStorage.token);
+  console.log(localStorage.token)
+}
 function App() {
     useEffect(()=>{
       store.dispatch(loadUser())
@@ -36,6 +37,7 @@ function App() {
         <Route exact path='/' Component={Landing} />
         <Route exact path='/register' Component={Register} />
         <Route exact path='/login' Component={Login}/>
+        <Route exact path="/dashboard" Component={Dashboard}/>
         </Routes>
         
       

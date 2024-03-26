@@ -1,14 +1,16 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux'; // Import useDispatch
+import { connect, useDispatch } from 'react-redux'; // Import useDispatch
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
-import { setAuthToken } from '../../actions/auth';
+import { loadUser, setAuthToken } from '../../actions/auth';
 import { REGISTER_FAIL, REGISTER_SUCCESS, REMOVE_ALERT, SET_ALERT } from '../../actions/types'; // Import SET_ALERT action type
 import Alert from '../layout/Alert';
+
 export const Register = () => {
     const dispatch = useDispatch(); // Get the dispatch function
     const newDispatch = useDispatch()
-
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -34,7 +36,10 @@ export const Register = () => {
             if(localStorage.token){
                 setAuthToken(localStorage.token);
                 console.log(localStorage.token)
+                
+                navigate('/dashboard')
               }
+
             // try {
             //     const newUser = { name, email, password };
             //     if (!name || !email || !password) {
@@ -62,7 +67,7 @@ export const Register = () => {
     }
     //user register
 
-    async function register({ name, email, password }, msg, isAuthenticated, loading) {
+    async function register({ name, email, password }) {
 
         const config = {
             headers: {
@@ -72,7 +77,7 @@ export const Register = () => {
     
         const body = JSON.stringify({ name, email, password });
         console.log(body)
-    
+        dispatch(loadUser())
         try {
             const res = await axios.post('http://localhost:5000/api/users', body, config);
             console.log(res.data)
@@ -96,7 +101,45 @@ export const Register = () => {
 
     }
     
+    //login user
+    // async function login(  email, password) {
+
+    //     const config = {
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     };
     
+    //     const body = JSON.stringify({ email, password });
+    //     console.log(body)
+    
+    //     try {
+    //         const res = await axios.post('http://localhost:5000/api/auth', body, config);
+    //         console.log(res.data)
+          
+    //         console.log(res)
+    //         newDispatch({ type: LOGIN_SUCCESS,  payload: res.data});
+            
+    //     } catch (err) {
+    //         console.log(err)
+    
+    //         if (err) {
+    //             newDispatch({ type: LOGIN_FAIL });
+    //             // err.forEach(error => dispatch(dispatchAlert(error.msg, 'danger')));
+                
+    //         }
+    
+    //         newDispatch({ type: LOGIN_FAIL, payload: err.response.body.msg });
+    //     }
+
+
+
+    // }
+    
+    
+    // if(isAuthenticate){
+    //     return redirect('/dashboard')
+    // }
 
     return (
         <div>
@@ -125,5 +168,7 @@ export const Register = () => {
     );
 };
 
-
-export default  Register
+const mapStateToProps = state =>({
+    isAuthenticate: state.auth.isAuthenticated
+})
+export default  connect(mapStateToProps , { loadUser })(Register)

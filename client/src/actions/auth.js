@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_ERROR, USER_LOADED } from '../actions/types'; // Import SET_ALERT action type
+import { AUTH_ERROR, LOGOUT, USER_LOADED } from '../actions/types'; // Import SET_ALERT action type
 // import { setAlert } from './alert';
 
 // //REGISTER USER
@@ -51,9 +51,56 @@ import { AUTH_ERROR, USER_LOADED } from '../actions/types'; // Import SET_ALERT 
                 type: USER_LOADED,
                 payload: res.data
             })
+            console.log('user loaded')
         } catch (error) {
             console.log(error)
             dispatch({type: AUTH_ERROR})
             
         }
     }
+    //login user
+    export const  login = ()=>async dispatch=>{
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+    
+        const body = JSON.stringify({ email, password });
+        console.log(body)
+    
+        try {
+            const res = await axios.post('http://localhost:5000/api/auth', body, config);
+            console.log(res.data)
+          
+            console.log(res)
+            dispatch(loadUser)
+            dispatch({ type: LOGIN_SUCCESS,  payload: res.data});
+            
+            if(res.data){
+                navigate('/dashboard')
+            }
+            
+        } catch (err) {
+            console.log(err)
+    
+            if (err) {
+                dispatch({ type: LOGIN_FAIL });
+                // err.forEach(error => dispatch(dispatchAlert(error.msg, 'danger')));
+                
+            }
+    
+            dispatch({ type: LOGIN_FAIL, payload: err.response.body.msg });
+        }
+    }
+
+
+    //logout
+    export const logOut =()=> async dispatch =>{
+      
+      localStorage.removeItem("token")
+      setAuthToken(false);
+      dispatch(clearErrors())
+      dispatch({type: LOGOUT});
+   }; 
