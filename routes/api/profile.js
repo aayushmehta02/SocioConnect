@@ -9,31 +9,37 @@ const auth = require('../middleware/auth')
 const Profile = require('../../models/Profile')
 const User = require('../../models/User')
 const {check, validationResult} = require('express-validator');
-const { profile } = require('console');
+const { profile, error } = require('console');
 const punycode = require('punycode/');
 
 
 // GET api/profile/me
 //get current user profile
-router.get('/me',auth, async(req,res)=>{
-    res.json(req.user)
+router.get('/me', auth, async (req, res) => {
     try {
-        const profile = await Profile.findOne({user: req.user.id}).populate('user',
-        ['name', 'avatar'])
+        // Check if the user is authenticated
+        console.log("Authenticated User: ", req.user);
 
-        if(!profile){
-            return res.status(400).json({msg: "There is no profile for this user"})
+        // Find the profile associated with the authenticated user
+        const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'avatar']);
 
+        // Log the profile details
+        console.log("Retrieved Profile: ", profile);
 
+        // If profile is not found, return an error
+        if (!profile) {
+            return res.status(400).json({ msg: "There is no profile for this user" });
         }
 
-        res.json(profile);
-        console.log(req.user)
+        // Return the profile
+        return res.json(profile);
     } catch (error) {
-        console.error(error.message)
-        res.status(500).send('Server error')
+        // Log any errors that occur during the process
+        console.log("Error fetching profile: ", error.message);
+        return res.status(500).send('Server error');
     }
 });
+
 
 
 //POST api/profile

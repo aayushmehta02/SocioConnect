@@ -55,13 +55,15 @@ export const Login = () => {
     }
     //get profiles
     async function getCurrentProfile(){
-        try{
+        try{    
             console.log("getCurrentProfile working")
             const res= await axios.get("http://localhost:5000/api/profile/me");
             console.log("the res is: ", res.data)
             secondDispatch({type: GET_PROFILE ,payload :res.data}) ;
+            console.log("full current profile working")
         } catch(err){
             secondDispatch({type:PROFILE_ERROR , payload:{msg: err.response.statusText, status: err.response.status}});
+            console.log("error  getting full profile", err)
     }}
    
 
@@ -73,26 +75,29 @@ export const Login = () => {
                 'Content-Type': 'application/json'
             }
         };
-    
+        console.log("login working 1")
         const body = JSON.stringify({ email, password });
-    
+        console.log("login working 2")
         try {
             const res = await axios.post('http://localhost:5000/api/auth', body, config);
             console.log(res.data);
             
             newDispatch({ type: LOGIN_SUCCESS, payload: res.data });
             dispatch(loadUser());
-             
+             console.log(" login working 3")
            
                 navigate('/dashboard');
+                console.log("login working 4")
                 getCurrentProfile();
+                console.log("login working5")
             
              
         } catch (err) {
             console.error(err.response.data);
-    
+            
             // Send only one response here
             newDispatch({ type: LOGIN_FAIL, payload: err.response.data });
+            
         }
     }
     
