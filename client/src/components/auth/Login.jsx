@@ -4,10 +4,12 @@ import { connect, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { loadUser } from '../../actions/auth';
-import { LOGIN_FAIL, LOGIN_SUCCESS } from '../../actions/types'; // Import SET_ALERT action type
+import { GET_PROFILE, LOGIN_FAIL, LOGIN_SUCCESS, PROFILE_ERROR } from '../../actions/types'; // Import SET_ALERT action type
+
 export const Login = () => {
     const newDispatch = useDispatch()
     const dispatch = useDispatch()
+    const  secondDispatch = useDispatch()
     const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
@@ -32,28 +34,9 @@ export const Login = () => {
            
 
            try {
-            // const newUser = {
-                
-            //     email,
-            //     password
-            //    }
-            //    if ( !email || !password) {
-            //     throw new Error(" email, and password are required");
-            // }
-            //  console.log(newUser);
-            //     const config = {
-
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         }
-
-            //     }
-            //     const body = JSON.stringify(newUser)
-            //     console.log(body)
-            //     const res = await axios.post('http://localhost:5000/api/auth', body, config)
-            //     console.log(res);
+            
             login(email,password)
-
+            
            } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -70,12 +53,21 @@ export const Login = () => {
            }
         
     }
-
+    //get profiles
+    async function getCurrentProfile(){
+        try{
+            console.log("getCurrentProfile working")
+            const res= await axios.get("http://localhost:5000/api/profile/me");
+            console.log("the res is: ", res.data)
+            secondDispatch({type: GET_PROFILE ,payload :res.data}) ;
+        } catch(err){
+            secondDispatch({type:PROFILE_ERROR , payload:{msg: err.response.statusText, status: err.response.status}});
+    }}
+   
 
 
     //login user
-    async function login(  email, password) {
-
+    async function login(email, password) {
         const config = {
             headers: {
                 'Content-Type': 'application/json'
@@ -83,31 +75,27 @@ export const Login = () => {
         };
     
         const body = JSON.stringify({ email, password });
-        console.log(body)
     
         try {
             const res = await axios.post('http://localhost:5000/api/auth', body, config);
-            console.log(res.data)
-          
-            console.log(res)
-            newDispatch({ type: LOGIN_SUCCESS,  payload: res.data});
-            dispatch(loadUser)
-            if(res.data){
-                navigate('/dashboard')
-            }
+            console.log(res.data);
             
+            newDispatch({ type: LOGIN_SUCCESS, payload: res.data });
+            dispatch(loadUser());
+             
+           
+                navigate('/dashboard');
+                getCurrentProfile();
+            
+             
         } catch (err) {
-            console.log(err)
+            console.error(err.response.data);
     
-            if (err) {
-                newDispatch({ type: LOGIN_FAIL });
-                // err.forEach(error => dispatch(dispatchAlert(error.msg, 'danger')));
-                
-            }
-    
-            newDispatch({ type: LOGIN_FAIL, payload: err.response.body.msg });
+            // Send only one response here
+            newDispatch({ type: LOGIN_FAIL, payload: err.response.data });
         }
     }
+    
     
   return (
     <div>
