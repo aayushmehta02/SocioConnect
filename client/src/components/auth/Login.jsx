@@ -54,7 +54,7 @@ export const Login = () => {
         
     }
     //get profiles
-    async function getCurrentProfile(){
+    async   function getCurrentProfile(){
         try{    
             console.log("getCurrentProfile working")
             const res= await axios.get("http://localhost:5000/api/profile/me");
@@ -86,7 +86,7 @@ export const Login = () => {
             dispatch(loadUser());
              console.log(" login working 3")
            
-                navigate('/dashboard');
+                navigate('/profile');
                 console.log("login working 4")
                 getCurrentProfile();
                 console.log("login working5")
