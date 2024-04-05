@@ -1,18 +1,31 @@
 import PropTypes from 'prop-types';
 import { default as React, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { createProfile, getCurrentProfile } from '../../actions/profile';
+import { createProfile, } from '../../actions/profile';
 import NavbarNew from '../layout/NavbarNew';
 
 
 
-function Editprofile({createProfile, getCurrentProfile, profile: {profile, loading}}) {
+function Editprofile({createProfile,  profile: {profile, loading}}) {
 
     const navigate =useNavigate()
-
+    const secondDispatch = useDispatch();
     useEffect(() => {
-        getCurrentProfile();
+        // ();
+        async function getCurrentProfile() {
+            try {
+              console.log("getCurrentProfile working");
+              const res = await axios.get("http://localhost:5000/api/profile/me");
+              console.log("the res is: ", res.data);
+              secondDispatch({ type: 'GET_PROFILE', payload: res.data }); // Dispatch action
+              console.log("full current profile working");
+            } catch (err) {
+              secondDispatch({ type: 'PROFILE_ERROR', payload: { msg: err.response.statusText, status: err.response.status } });
+              console.log("error getting full profile", err);
+            }
+          }
+          getCurrentProfile();
         setFormData({
             company:loading || !profile.company ? '' : profile.company,
             website:loading || !profile.website ? '' : profile.website,
@@ -20,7 +33,7 @@ function Editprofile({createProfile, getCurrentProfile, profile: {profile, loadi
             bio:loading || !profile.bio ? '': profile.bio,
             status:loading || !profile.status ? '': profile.company,
             githubusername:loading || !profile.githubusername ? '': profile.githubusername,
-            skills:loading || !profile.skills ?  '': profile.social.skills,
+            skills:loading || !profile.skills ?  '': profile.skills,
             youtube:loading || !profile.social ? '': profile.social.youtube,    
             twitter:loading || !profile.social ? '': profile.social.twitter, 
             instagram:loading || !profile.social ? '': profile.social.instagram,  
@@ -78,7 +91,7 @@ function Editprofile({createProfile, getCurrentProfile, profile: {profile, loadi
     <NavbarNew/>
     <section className="container">
     <h1 className="large text-primary">
-      Create Your Profile
+      Edit Your Profile
     </h1>
     <p className="lead">
       <i className="fas fa-user"></i> Let's get some information to make your
@@ -183,11 +196,11 @@ function Editprofile({createProfile, getCurrentProfile, profile: {profile, loadi
 
 Editprofile.propTypes = {
     createProfile :PropTypes.func.isRequired,
-    getCurrentProfile:  PropTypes.func.isRequired,
+    // :  PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired
 }
 const mapStateToProps = state =>
 ({
     profile: state.profile,
 })
-export default connect(mapStateToProps, {createProfile, getCurrentProfile})(Editprofile)
+export default connect(mapStateToProps, {createProfile, })(Editprofile)
