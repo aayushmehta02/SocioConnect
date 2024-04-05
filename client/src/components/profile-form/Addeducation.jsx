@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { addEducation } from '../../actions/profile';
 import NavbarNew from '../layout/NavbarNew';
 function Addeducation({addEducation}) {
+  const navigate = useNavigate()
   const [education, setEducation] = useState({
     school:'',
     degree: '',
@@ -24,11 +26,14 @@ function Addeducation({addEducation}) {
   } = education
 
   const onChange = e => setEducation({...education, [e.target.name]:e.target.value})
-
+  const [toggleDisabled,setToggleDisabled] =useState(false)
   const onSubmit =e =>{
     e.preventDefault()
     console.log(education)
     addEducation(education)
+    if(education){
+      navigate('/dashboard')
+    }
   }
 
   return (
@@ -71,12 +76,15 @@ function Addeducation({addEducation}) {
         </div>
         <div className="form-group">
           <p>
-            <input type="checkbox" name="current"  value={current} onChange={e => onChange(e)}/> Current School or Bootcamp
+            <input type="checkbox" name="current"  value={current} onChange={e=>{
+            setEducation({...education, current: !current})
+            setToggleDisabled(!toggleDisabled)
+          }}/> Current School or Bootcamp
           </p>
         </div>
         <div className="form-group">
           <h4>To Date</h4>
-          <input type="date" name="to"  value={to} onChange={e => onChange(e)}/>
+          <input type="date" name="to"  value={to} onChange={e=>onChange(e)} disabled={toggleDisabled ? 'disabled' : ''}/>
         </div>
         <div className="form-group">
           <textarea
