@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { deleteEducation } from '../../actions/profile';
 import formatDate from '../../utils/formatDate';
-
 const Education = ({ education, deleteEducation }) => {
   const educations = education.map((edu) => (
     <tr key={edu._id}>
@@ -42,7 +42,7 @@ const Education = ({ education, deleteEducation }) => {
 
 Education.propTypes = {
   education: PropTypes.array.isRequired,
-//   deleteEducation: PropTypes.func.isRequired
+deleteEducation: PropTypes.func.isRequired
 };
 
-export default connect(null)(Education);
+export default connect(null, {deleteEducation})(Education);

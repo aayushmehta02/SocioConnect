@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { deleteExperience } from '../../actions/profile';
 import formatDate from '../../utils/formatDate';
-
 const Experience = ({ experience, deleteExperience }) => {
     
   const experiences = experience.map((exp) => (
@@ -43,7 +43,7 @@ const Experience = ({ experience, deleteExperience }) => {
 
 Experience.propTypes = {
   experience: PropTypes.array.isRequired,
-  
+  deleteExperience: PropTypes.func.isRequired
 };
 
-export default connect(null)(Experience);
+export default connect(null, {deleteExperience})(Experience);

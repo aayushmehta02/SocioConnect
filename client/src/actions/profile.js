@@ -71,7 +71,7 @@ export const  addEducation =(education)=>async dispatch =>{
         console.log("hi again")
         const res = await axios.put('http://localhost:5000/api/profile/education', education,config)
         console.log("The res for education is:",res)
-        dispatch({type: GET_PROFILE ,payload :res.data}) ;
+        dispatch({type: UPDATE_PROFILE ,payload :res.data}) ;
         dispatch('EDUCATION ADDED', 'success')
         if(res.data){
             navigate('/dashboard')
@@ -115,4 +115,31 @@ export const addExperience =(formData) =>async dispatch=>{
             console.log("error creating profile", error)
         
     }
+}
+
+
+//delete experience
+export const deleteExperience= id => async dispatch => {
+    try {
+       const res =await axios.delete(`http://localhost:5000/api/profile/experience/${id}`); 
+       console.log(res)
+       dispatch({ type: UPDATE_PROFILE , payload: res.data })
+       dispatch(setAlert('Experience Removed','danger'));
+   }catch(err) {
+       dispatch(setAlert('Failed to remove Experience','danger'));
+       dispatch({type: PROFILE_ERROR , payload: err})
+   }
+}
+
+//delete education
+export const deleteEducation= id => async dispatch => {
+    try {
+       const res =await axios.delete(`http://localhost:5000/api/profile/education/${id}`); 
+       console.log(res)
+       dispatch({ type: UPDATE_PROFILE , payload: res.data })
+       dispatch(setAlert('Education Removed','danger'));
+   }catch(err) {
+       dispatch(setAlert('Failed to remove Education','danger'));
+       dispatch({type: PROFILE_ERROR , payload: err})
+   }
 }
