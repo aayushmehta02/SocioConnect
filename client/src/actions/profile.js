@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from './types';
+import { GET_PROFILE, GET_PROFILEBYID, GET_PROFILES, GITHUB_REPOS, PROFILE_ERROR, UPDATE_PROFILE } from './types';
 
 // export async function getCurrentProfile() {
 //     const dispatch = useDispatch();
@@ -142,4 +142,52 @@ export const deleteEducation= id => async dispatch => {
        dispatch(setAlert('Failed to remove Education','danger'));
        dispatch({type: PROFILE_ERROR , payload: err})
    }
+}
+
+//get all profiles
+  
+
+
+export const getProfiles= ()=> async dispatch =>{
+    try {
+        const res = await axios.get('http://localhost:5000/api/profile')
+        console.log(res)
+        dispatch({type: GET_PROFILES, payload:res.data})
+        dispatch(setAlert("Profile Loaded",'success'))
+    } catch (error) {
+        dispatch({type: PROFILE_ERROR ,payload : error})
+        dispatch(setAlert('Server Error', 'dark'))
+        console.log("error for get profile is:", error)
+    }
+}
+
+
+//get profiles by id
+export const getProfileById= (userId)=> async dispatch =>{
+    try {
+        const res = await axios.get(`http://localhost:5000/api/profile/user/${userId}`)
+        console.log("res for porfile id", res)
+        dispatch({type:GET_PROFILEBYID, payload:res.data})
+    } catch (error) {
+        console.log(error)
+        dispatch({type: PROFILE_ERROR ,payload : error})
+        
+    }
+}
+
+//get github repos
+
+export const  getGithubRepos = (id)=>async dispatch=>{
+    
+    try {
+        console.log("hi from github")
+        console.log("the id is:",id)
+        const res = await axios.get(`http://localhost:5000/api/profile/github/${id}`)
+        console.log(res);
+
+        dispatch({ type: GITHUB_REPOS , payload : res })
+    } catch (error) {
+        console.log(error)
+        dispatch({type: PROFILE_ERROR ,payload : error})
+    }
 }

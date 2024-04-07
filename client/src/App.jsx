@@ -6,6 +6,7 @@ import { Landing } from './components/layout/Landing';
 import Addeducation from "./components/profile-form/Addeducation";
 import Createprofile from "./components/profile-form/Createprofile";
 import Editprofile from "./components/profile-form/Editprofile";
+import Profile from "./components/profile/Profile";
 //redux
 import { useEffect } from "react";
 import { Provider } from 'react-redux';
@@ -13,6 +14,7 @@ import { loadUser, setAuthToken } from './actions/auth';
 import Dashboard from "./components/dashboard/Dashboard";
 
 import Addexperience from "./components/profile-form/Addexperience";
+import Profiles from "./components/profiles/Profiles";
 import store from './store';
 
 
@@ -46,6 +48,8 @@ function App() {
         <Route exact path="/edit-profile" Component={Editprofile}/>
         <Route exact path="/add-education" Component={Addeducation}/>
         <Route exact path="/add-experience" Component={Addexperience}/>
+        <Route exact path='/profiles' Component={Profiles}/>
+        <Route exact path="/profile/:id" Component={Profile} />
         </Routes>
         
       

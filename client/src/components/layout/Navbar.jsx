@@ -9,7 +9,7 @@ export const Navbar = () => {
         <Link to='/'><i className="fas fa-code"></i> DevConnector</Link>
       </h1>
       <ul>
-        <li><a href="profiles.html">Developers</a></li>
+        <li><a href="/profiles">Developers</a></li>
         <li><Link to='/register'>Register</Link></li>
         <li><Link to='/login'>Login</Link></li>
       </ul>
