@@ -3,6 +3,7 @@ import './App.css';
 import { Login } from './components/auth/Login';
 import { Register } from './components/auth/Register';
 import { Landing } from './components/layout/Landing';
+import Posts from "./components/posts/Posts";
 import Addeducation from "./components/profile-form/Addeducation";
 import Createprofile from "./components/profile-form/Createprofile";
 import Editprofile from "./components/profile-form/Editprofile";
@@ -50,6 +51,7 @@ function App() {
         <Route exact path="/add-experience" Component={Addexperience}/>
         <Route exact path='/profiles' Component={Profiles}/>
         <Route exact path="/profile/:id" Component={Profile} />
+        <Route exact path="/posts"  Component={Posts} />
         </Routes>
         
       

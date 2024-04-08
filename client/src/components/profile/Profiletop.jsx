@@ -6,10 +6,13 @@ function Profiletop({profile:{
     location,
     website,
     social,
+    
+    skills,
+
     user: {name, avatar}
 }}) {
   return (
-  
+    <div>
             <div className="profile-top bg-primary p-2">
           <img
             className="round-img my-1"
@@ -43,6 +46,16 @@ function Profiletop({profile:{
            { social &&  <a href={social.instagram} target="_blank" rel="noopener noreferrer">
               <i className="fab fa-instagram fa-2x"></i>
             </a>}
+          </div>
+          <div className="skills-container">
+                    <div className="skills">
+                        {skills.map((skill, index) => (
+                            <div key={index} className="p-1">
+                                <i className="fas fa-check" /> {skill}
+                            </div>
+                        ))}
+                    </div>
+                </div>
           </div>
           </div>
     

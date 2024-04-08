@@ -575,3 +575,18 @@ button {
     padding: 0.3rem 0.4rem;
   }
 }
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 0; /* Remove default margin */
+}
+
+.p-1 {
+  margin-right: 10px; /* Adjust margin between skills */
+}
