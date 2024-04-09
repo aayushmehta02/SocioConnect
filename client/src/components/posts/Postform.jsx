@@ -5,7 +5,7 @@ import { addPost } from '../../actions/post'
 function Postform({addPost}) {
     const [text, setText] = useState('')
   return (
-    <div className="post-form">
+    <div className="post-form container">
         <div className="bg-primary p">
           <h3>Say Something...</h3>
         </div>

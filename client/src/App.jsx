@@ -1,4 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Post from '././components/Post/Post';
 import './App.css';
 import { Login } from './components/auth/Login';
 import { Register } from './components/auth/Register';
@@ -52,6 +53,7 @@ function App() {
         <Route exact path='/profiles' Component={Profiles}/>
         <Route exact path="/profile/:id" Component={Profile} />
         <Route exact path="/posts"  Component={Posts} />
+        <Route exact  path="/post/:id" Component={Post}/> 
         </Routes>
         
       

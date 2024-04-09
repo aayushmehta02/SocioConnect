@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { setAlert } from './alert'
-import { ADD_POST, DELETE_POST, GET_POSTS, POST_ERROR, UPDATE_LIKES } from './types'
+import { ADD_POST, DELETE_POST, GET_POST, GET_POSTS, POST_ERROR, UPDATE_LIKES } from './types'
 
-
+//GET POSTS
 export const getPosts= ()=> async dispatch =>{
     try {
         const res = await axios.get('http://localhost:5000/api/posts')
@@ -64,6 +64,7 @@ export const addPost= (formData)=> async dispatch =>{
             'Content-Type' :  'application/json'
         }
     }
+    console.log('hi')
     try {
         const res = await axios.post(`http://localhost:5000/api/posts`, formData, config)
         console.log(res)
@@ -78,3 +79,15 @@ export const addPost= (formData)=> async dispatch =>{
 
 
 
+export const getPost= id=> async dispatch =>{
+    try {
+        const res = await axios.get(`http://localhost:5000/api/posts/${id}`)
+        console.log(res)
+        dispatch({type: GET_POST, payload:res.data})
+        dispatch(setAlert("POSTS Loaded",'success'))
+    } catch (error) {
+        dispatch({type: POST_ERROR ,payload : error})
+        dispatch(setAlert('Server Error', 'dark'))
+        console.log("error for get POST is:", error)
+    }
+}
