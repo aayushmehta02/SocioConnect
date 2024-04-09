@@ -86,7 +86,7 @@ export const Login = () => {
             dispatch(loadUser());
              console.log(" login working 3")
            
-                navigate('/profile');
+                navigate('/dashboard');
                 console.log("login working 4")
                 getCurrentProfile();
                 console.log("login working5")
