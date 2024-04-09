@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { Provider } from 'react-redux';
 import { loadUser, setAuthToken } from './actions/auth';
 import Dashboard from "./components/dashboard/Dashboard";
-
+import Notfound from "./components/layout/Notfound";
 import Addexperience from "./components/profile-form/Addexperience";
 import Profiles from "./components/profiles/Profiles";
 import store from './store';
@@ -54,6 +54,7 @@ function App() {
         <Route exact path="/profile/:id" Component={Profile} />
         <Route exact path="/posts"  Component={Posts} />
         <Route exact  path="/post/:id" Component={Post}/> 
+        <Route Component={Notfound}/>
         </Routes>
         
       

@@ -82,30 +82,30 @@ router.get('/:id', auth, async(req,res)=>{
 
 //DELETE api/posts/:id
 
-router.delete('/:id', auth, async(req,res)=>{
+router.delete('/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        console.log(post)
 
-    if (!post) {
-      return res.status(404).json({ msg: 'Post not found' });
-    }
+        if (!post) {
+            return res.status(404).json({ msg: 'Post not found' });
+        }
 
-    // Check user
-    if (post.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'User not authorized' });
-    }
+        // Check user
+        if (post.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'User not authorized' });
+        }
 
-    await post.remove;
+        // Use the deleteOne method to remove the post from the database
+        await Post.deleteOne({ _id: req.params.id });
 
-    res.json({ msg: 'Post removed' });
+        res.json({ msg: 'Post removed' });
 
     } catch (error) {
-        console.error(error.message)
-        res.status(500).send("server error")
+        console.error(error.message);
+        res.status(500).send("Server error");
     }
-    
-})
+});
+
 
 
 // @route    PUT api/posts/like/:id
