@@ -2,11 +2,7 @@ const connectDB = require('./config/db')
 const express = require('express')
 const cors = require('cors')
 const app = express()
-app.use(cors({
-    origin: ["https://socio-connect-delta.vercel.app/"],
-    methods: ['POST', 'GET', 'PUT', 'DELETE'],
-    credentials: true
-}));
+app.use(cors());
 connectDB();
 
 

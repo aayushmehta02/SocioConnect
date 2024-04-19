@@ -19,9 +19,9 @@ export default function NavbarNew() {
         </li>
         
         <li>
-          <a href="login.html" title="Logout">
+          
             <i className="fas fa-sign-out-alt"></i>
-            <span className="hide-sm">Logout</span></a>
+            <span className="hide-sm">Logout</span>
         </li>
       </ul>
     </nav>

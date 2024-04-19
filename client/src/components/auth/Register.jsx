@@ -37,7 +37,7 @@ export const Register = () => {
                 setAuthToken(localStorage.token);
                 console.log(localStorage.token)
                 
-                navigate('/dashboard')
+                
               }
 
             // try {
@@ -84,7 +84,7 @@ export const Register = () => {
           
             console.log(res)
             newDispatch({ type: REGISTER_SUCCESS,  payload: res.data});
-            
+            navigate('/dashboard');
         } catch (err) {
             console.log(err)
     
@@ -94,52 +94,16 @@ export const Register = () => {
                 
             }
     
-            newDispatch({ type: REGISTER_FAIL, payload: err.response.body.msg });
+            newDispatch({ type: REGISTER_FAIL, payload: err });
         }
 
 
 
     }
     
-    //login user
-    // async function login(  email, password) {
-
-    //     const config = {
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     };
+  
     
-    //     const body = JSON.stringify({ email, password });
-    //     console.log(body)
-    
-    //     try {
-    //         const res = await axios.post('http://localhost:5000/api/auth', body, config);
-    //         console.log(res.data)
-          
-    //         console.log(res)
-    //         newDispatch({ type: LOGIN_SUCCESS,  payload: res.data});
-            
-    //     } catch (err) {
-    //         console.log(err)
-    
-    //         if (err) {
-    //             newDispatch({ type: LOGIN_FAIL });
-    //             // err.forEach(error => dispatch(dispatchAlert(error.msg, 'danger')));
-                
-    //         }
-    
-    //         newDispatch({ type: LOGIN_FAIL, payload: err.response.body.msg });
-    //     }
-
-
-
-    // }
-    
-    
-    // if(isAuthenticate){
-    //     return redirect('/dashboard')
-    // }
+  
 
     return (
         <div>
@@ -169,6 +133,6 @@ export const Register = () => {
 };
 
 const mapStateToProps = state =>({
-    isAuthenticate: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated
 })
 export default  connect(mapStateToProps , { loadUser })(Register)

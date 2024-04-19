@@ -55,6 +55,7 @@ function App() {
         <Route exact path="/posts"  Component={Posts} />
         <Route exact  path="/post/:id" Component={Post}/> 
         <Route Component={Notfound}/>
+        <Route exact path="/create-profile" Component={Createprofile}/>
         </Routes>
         
       
